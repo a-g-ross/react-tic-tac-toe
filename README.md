@@ -6,6 +6,9 @@
   <h3 align="center">Tic-Tac-Toe Game</h3>
   <p align="center">
     Creating a Tic-Tac-Toe game using the React library.
+    <br />
+    <br />
+    <a href="https://stackblitz.com/~/github.com/a-g-ross/react-tic-tac-toe">View Demo</a>
   </p>
 </div>
 
