@@ -1,0 +1,320 @@
+@use 'sass:color';
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Roboto+Slab:wght@400;700&display=swap');
+
+$white: #fff;
+$black: #000;
+$body-text-color: #333;
+$primary-color: #d20fa1;
+$secondary-color: #132c78;
+
+$container-gradient-top: #312438;
+$container-gradient-bottom: #241728;
+
+$text-primary-color: #e910b3;
+$text-secondary-color: #173695;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto Slab', sans-serif;
+  line-height: 1.5;
+
+  color: $body-text-color;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: radial-gradient(circle at top, $primary-color, $secondary-color);
+  background-repeat: repeat;
+  background-size: 100% 100%, 30% 30%, 100% 100%;
+  min-height: 100vh;
+}
+
+header {
+  text-align: center;
+
+  h1 {
+    font-family: 'Caprasimo', cursive;
+    font-size: 3rem;
+    margin: 2rem auto 2.5rem auto;
+    color: #333;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+      1px 1px 0 #fff;
+  }
+}
+
+#game-container {
+  max-width: 45rem;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 6px;
+  background: linear-gradient(
+    $container-gradient-top,
+    $container-gradient-bottom
+  );
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+#players {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  li {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    border: 2px solid transparent;
+  }
+
+  &.highlight-player li.active {
+    border-color: $text-primary-color;
+    animation: pulse 2s infinite ease-in-out;
+
+    .player-name,
+    .player-symbol {
+      color: lighten($text-primary-color, 80%);;
+    }
+  }
+
+  button {
+    width: 3rem;
+    border: none;
+    background: rgba(#fff, 0.02);
+    color: lighten($text-primary-color, 30%);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0.5rem;
+    text-align: center;
+    margin-left: 1rem;
+    transform: all linear 2s;
+
+    &:hover {
+      background: rgba(#fff, 0.06);
+      color: lighten($text-primary-color, 40%);
+    }
+  }
+}
+
+.player {
+  border: 2px solid transparent;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+
+  .player-name {
+    display: inline-block;
+    width: 10rem;
+    font-size: 1rem;
+    color: lighten($text-primary-color, 50%);
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0.5rem;
+    border-radius: 4px;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+  input {
+    font: inherit;
+    font-size: 1rem;
+    width: 10rem;
+    border: none;
+    padding: 0.5rem;
+    animation: pulse-text 2s infinite;
+    background-color: rgba(#fff, 0.1);
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .player-symbol {
+    margin-left: 1rem;
+    font-size: 1rem;
+    color: #e1dec7;
+  }
+}
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#game-board {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin: 3rem 0;
+  padding: 0;
+  flex-direction: column;
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  button {
+    width: 8rem;
+    height: 8rem;
+    border: none;
+    background: rgba(#fff, 0.1);
+    color: darken($text-primary-color, 20%);
+    text-shadow: -1px -1px 0 $text-primary-color, 1px -1px 0 $text-primary-color,
+      -1px 1px 0 $text-primary-color, 1px 1px 0 $text-primary-color;
+    font-size: 5rem;
+    cursor: pointer;
+    font-family: 'Caprasimo', cursive;
+    padding: 1rem;
+    transition: all 0.2s linear;
+
+    &:hover {
+      background: rgba(#fff, 0.15);
+    }
+  }
+}
+
+#game-over {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(40, 38, 23, 0.95);
+  animation: pop-in 0.5s cubic-bezier(0.68, -0.55, 0.65, 0.52) forwards;
+
+  h2 {
+    font-family: 'Caprasimo', cursive;
+    font-size: 4rem;
+    text-align: center;
+    color: $text-primary-color;
+    margin: 0;
+  }
+
+  p {
+    font-size: 2rem;
+    text-align: center;
+    color: lighten($text-primary-color, 80%);
+  }
+
+  button {
+    display: block;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    background: none;
+    border: 2px solid $text-primary-color;
+    color: $text-primary-color;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s, color 0.2s;
+    box-shadow: 0 0 8px rgba($text-primary-color, 0.4);
+
+    &:hover {
+      background: darken($text-primary-color, 5%);
+      color: $body-text-color;
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(lighten($text-primary-color, 10%), 0.8);
+    }
+  }
+}
+
+#log {
+  max-width: 20rem;
+  color: #FFF;
+  list-style: none;
+  margin: 2rem auto;
+  padding: 0;
+  text-align: center;
+
+  li {
+    border-radius: 4px;
+    animation: slide-in-from-left 1s cubic-bezier(0.075, 0.82, 0.165, 1)
+      forwards;
+    margin: 0.75rem;
+  }
+}
+
+@keyframes slide-in-from-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-30%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-text {
+  0% {
+    color: lighten($text-primary-color, 10%);
+  }
+  50% {
+    color: $text-primary-color;
+  }
+  100% {
+    color: lighten($text-primary-color, 10%);
+  }
+}
+
+@keyframes pulse-text-size {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 0 rgba($primary-color, 0.6);
+  }
+  50% {
+    border-color: lighten($primary-color, 20%);
+    box-shadow: 0 0 0 0.5rem rgba(lighten($primary-color, 20%), 0);
+  }
+  100% {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 0 rgba($primary-color, 0);
+  }
+}
+
+/* Fancy animation for showing the "Game Over" element */
+@keyframes pop-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
